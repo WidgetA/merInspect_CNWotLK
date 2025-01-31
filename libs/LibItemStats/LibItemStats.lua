@@ -196,7 +196,14 @@ function lib:GetUnitBuffStats(unit, stats)
     if (type(stats) ~= "table") then stats = {} end
     local text
 	local i = 1
-	while C_UnitAuras.GetBuffDataByIndex(unit, i) do
+    local BuffFunction
+    if GetCVar('portal') == 'CN' then
+        BuffFunction = UnitAura
+    else
+        BuffFunction = C_UnitAuras.GetBuffDataByIndex
+    end
+
+	while BuffFunction(unit, i) do
 		tooltip:SetOwner(UIParent, "ANCHOR_NONE")
 		tooltip:ClearLines()
 		tooltip:SetUnitBuff(unit, i)
